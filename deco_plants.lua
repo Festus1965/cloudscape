@@ -3,13 +3,13 @@
 -- Distributed under the LGPLv2.1 (https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html)
 
 
-cloudscape_mod.water_plants = {}
+cloudscape.water_plants = {}
 local function register_water_plant(desc)
 	if not (desc and type(desc) == 'table') then
 		return
 	end
 
-	cloudscape_mod.water_plants[#cloudscape_mod.water_plants+1] = desc
+	cloudscape.water_plants[#cloudscape.water_plants+1] = desc
 end
 
 
@@ -104,7 +104,7 @@ do
 		biomes = {"sandstone_grassland", "stone_grassland", "coniferous_forest", "deciduous_forest", "savanna", "rainforest", "rainforest_swamp","sandstone_grassland_ocean", "stone_grassland_ocean", "coniferous_forest_ocean", "deciduous_forest_ocean", "desert_ocean", "savanna_ocean", "desertstone_grassland", },
 		y_max = 60,
 	}
-	if not cloudscape_mod.use_bi_hi then
+	if not cloudscape.use_bi_hi then
 		water_plant_1_def_sand.biomes = nil
 	end
 
@@ -126,7 +126,7 @@ end
 
 
 -- Get the content ids for all registered water plants.
-for _, desc in pairs(cloudscape_mod.water_plants) do
+for _, desc in pairs(cloudscape.water_plants) do
 	if type(desc.decoration) == 'string' then
 		desc.content_id = minetest.get_content_id(desc.decoration)
 	elseif type(desc.decoration) == 'table' then

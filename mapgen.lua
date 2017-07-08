@@ -6,19 +6,6 @@
 local DEBUG = false
 
 
--- This tables looks up nodes that aren't already stored.
-local node = setmetatable({}, {
-	__index = function(t, k)
-		if not (t and k and type(t) == 'table') then
-			return
-		end
-
-		t[k] = minetest.get_content_id(k)
-		return t[k]
-	end
-})
-
-
 local data = {}
 local p2data = {}
 
@@ -41,15 +28,15 @@ local function generate(p_minp, p_maxp, seed)
 	local csize = vector.add(vector.subtract(maxp, minp), 1)
 
 	local write = false
-	if not cloudscape_mod.height then
+	if not cloudscape.height then
 		return
 	end
 
   do
     local avg = (minp.y + maxp.y) / 2
     avg = math.floor(avg / csize.y)
-    if avg == cloudscape_mod.height then
-      write = cloudscape_mod.cloudgen(minp, maxp, data, p2data, area, node)
+    if avg == cloudscape.height then
+      write = cloudscape.cloudgen(minp, maxp, data, p2data, area)
     end
   end
 
@@ -70,8 +57,8 @@ local function generate(p_minp, p_maxp, seed)
 end
 
 
-if cloudscape_mod.path then
-	dofile(cloudscape_mod.path .. "/cloudgen.lua")
+if cloudscape.path then
+	dofile(cloudscape.path .. "/cloudgen.lua")
 end
 
 

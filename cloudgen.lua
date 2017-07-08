@@ -3,6 +3,9 @@
 -- Distributed under the LGPLv2.1 (https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html)
 
 
+local node = cloudscape.node
+
+
 local cloud_noise_1 = {offset = 10, scale = 10, seed = 4877, spread = {x = 120, y = 120, z = 120}, octaves = 3, persist = 1, lacunarity = 2}
 local cloud_noise_2 = {offset = 0, scale = 1, seed = 5748, spread = {x = 40, y = 10, z = 40}, octaves = 3, persist = 1, lacunarity = 2}
 local plant_noise = {offset = 0.0, scale = 1.0, spread = {x = 200, y = 200, z = 200}, seed = -2525, octaves = 3, persist = 0.7, lacunarity = 2.0}
@@ -12,8 +15,8 @@ local cloud_1_map, cloud_2_map, plant_n_map, biome_n_map
 local cloud_1, cloud_2, plant_n, biome_n = {}, {}, {}, {}
 
 
-cloudscape_mod.cloudgen = function(minp, maxp, data, p2data, area, node)
-	if not (minp and maxp and data and p2data and area and node and type(data) == 'table' and type(p2data) == 'table' and cloudscape_mod.place_schematic and cloudscape_mod.schematics and cloudscape_mod.surround) then
+cloudscape.cloudgen = function(minp, maxp, data, p2data, area)
+	if not (minp and maxp and data and p2data and area and type(data) == 'table' and type(p2data) == 'table' and cloudscape.place_schematic and cloudscape.schematics and cloudscape.surround) then
 		return
 	end
 
@@ -84,7 +87,7 @@ cloudscape_mod.cloudgen = function(minp, maxp, data, p2data, area, node)
 						data[ivm] = node['cloudscape:moon_weed']
 						write = true
 					elseif math.random(60) == 1 and plant_n[index] > 0.5 then
-						cloudscape_mod.place_schematic(minp, maxp, data, p2data, area, node, {x=x,y=y,z=z}, cloudscape_mod.schematics['lumin_tree'], true)
+						cloudscape.place_schematic(minp, maxp, data, p2data, area, node, {x=x,y=y,z=z}, cloudscape.schematics['lumin_tree'], true)
 						write = true
 					elseif math.random(10) == 1 then
 						data[ivm] = node['default:grass_'..math.random(4)]
@@ -119,7 +122,7 @@ cloudscape_mod.cloudgen = function(minp, maxp, data, p2data, area, node)
 			if cloud_1[index] > 0 then
 				for y = minp.y, maxp.y do
 					local dy = y - minp.y
-					if data[ivm] == node['cloudscape:'..cloud] and data[ivm + area.ystride] == node['default:water_source'] and math.random(30) == 1 and cloudscape_mod.surround(node, data, area, ivm) then
+					if data[ivm] == node['cloudscape:'..cloud] and data[ivm + area.ystride] == node['default:water_source'] and math.random(30) == 1 and cloudscape.surround(node, data, area, ivm) then
 						data[ivm] = node['cloudscape:water_plant_1_water_'..cloud]
 					end
 
